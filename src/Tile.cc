@@ -1,5 +1,7 @@
 #include "Tile.hh"
 
+#include <DrawingUtils.hh>
+
 #include <gtkmm/window.h>
 
 namespace intmines {
@@ -66,23 +68,26 @@ namespace intmines {
             const int height = allocation.get_height();  
             switch (m_state) {
                 case HIDDEN: {
-                    draw_state_hidden(cr, width, height);
+                    draw_state_hidden(cr);
                 } break;
                 case FLAGGED: {
-                    draw_state_flagged(cr, width, height);
+                    draw_state_flagged(cr);
                 } break;
                 case MINE: {
-                    draw_state_mine(cr, width, height);
+                    draw_state_mine(cr);
                 } break;
                 case EMPTY: {
-                    draw_state_empty(cr, width, height);
+                    draw_state_empty(cr);
                 } break;
             }
 
             return true;
         }
 
-        void Tile::TileDrawingArea::draw_state_hidden(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height) {
+        void Tile::TileDrawingArea::draw_state_hidden(const Cairo::RefPtr<Cairo::Context>& cr) {
+            const Gtk::Allocation allocation = get_allocation();
+            const int width = allocation.get_width();
+            const int height = allocation.get_height(); 
             cr->set_line_width(10.0);
             if (m_pressed_down) {
                 cr->set_source_rgb(0.0, 0.0, 0.8);
@@ -98,13 +103,16 @@ namespace intmines {
             cr->stroke();
         }
 
-        void Tile::TileDrawingArea::draw_state_flagged(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height) {
+        void Tile::TileDrawingArea::draw_state_flagged(const Cairo::RefPtr<Cairo::Context>& cr) {
         }
 
-        void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height) {
+        void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>& cr) {
         }
 
-        void Tile::TileDrawingArea::draw_state_empty(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height) {
+        void Tile::TileDrawingArea::draw_state_empty(const Cairo::RefPtr<Cairo::Context>& cr) {
+            const Gtk::Allocation allocation = get_allocation();
+            const int width = allocation.get_width();
+            const int height = allocation.get_height(); 
             cr->set_line_width(10.0);
             cr->set_source_rgb(0.0, 0.8, 0.0);
             cr->move_to(0, 0);
@@ -112,32 +120,8 @@ namespace intmines {
             cr->line_to(width, height);
             cr->line_to(0, height);
             cr->line_to(0, 0);
-            draw_number(cr, width, height, m_adjecent_count);
+            drawing_utils::draw_number(*this, cr, width/2, height/2, m_adjecent_count);
             cr->stroke();
-        }
-
-        void Tile::TileDrawingArea::draw_string(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, std::string string) {
-            static Pango::FontDescription font;
-            font.set_family("Monospace");
-            font.set_weight(Pango::WEIGHT_NORMAL);
-
-            Glib::RefPtr<Pango::Layout> layout = create_pango_layout(string);
-            layout->set_font_description(font);
-
-            int text_width;
-            int text_height;
-            layout->get_pixel_size(text_width, text_height);
-
-            const int text_xpos = (width - text_width) / 2;
-            const int text_ypos = (height - text_height) / 2;
-            cr->move_to(text_xpos, text_ypos);
-
-            layout->show_in_cairo_context(cr);
-        }
-
-        void Tile::TileDrawingArea::draw_number(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height, int number) {
-            const std::string string = std::to_string(number);
-            draw_string(cr, width, height, string);
         }
     }
 }
