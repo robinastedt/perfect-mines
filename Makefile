@@ -36,6 +36,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
 
 clean:
 	$(RM) $(OBJ)
+	$(RM) $(EXE)
 
 run: $(EXE)
 	./$(EXE)
