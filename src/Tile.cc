@@ -21,17 +21,35 @@ namespace intmines {
         }
 
         bool
-        Tile::on_tile_pressed(GdkEventButton*) {
-            m_drawing_area->m_pressed_down = true;
-            m_drawing_area->force_redraw();
+        Tile::on_tile_pressed(GdkEventButton* event) {
+            if (event->button == 1 or event->button == 3) {
+                if (m_drawing_area->m_pressed_down) {
+                    // Other button press: cancel action
+                    m_drawing_area->m_pressed_down = false;
+                }
+                else {
+                    m_drawing_area->m_pressed_down = true;
+                }
+                m_drawing_area->force_redraw();
+            }
+            
             return true;
         }
 
         bool
-        Tile::on_tile_released(GdkEventButton*) {
-            m_drawing_area->m_pressed_down = false;
-            m_drawing_area->force_redraw();
-            m_callbacks->tile_clicked(m_x, m_y);
+        Tile::on_tile_released(GdkEventButton* event) {
+            if (event->button == 1 or event->button == 3) {
+                if (m_drawing_area->m_pressed_down) {
+                    m_drawing_area->m_pressed_down = false;
+                    if (event->button == 1) {
+                        m_callbacks->tile_left_clicked(m_x, m_y);
+                    }
+                    else {
+                        m_callbacks->tile_right_clicked(m_x, m_y);
+                    }
+                    m_drawing_area->force_redraw();
+                }
+            }
             return true;
         }
 

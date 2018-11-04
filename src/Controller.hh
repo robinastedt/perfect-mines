@@ -14,7 +14,8 @@ namespace intmines {
             Controller(Gtk::Window& window);
             ~Controller();
             
-            void action_tile_clicked(size_t x, size_t y);
+            void action_tile_left_clicked(size_t x, size_t y);
+            void action_tile_right_clicked(size_t x, size_t y);
 
         protected:
             std::shared_ptr<view::ViewCallbacks> create_callbacks();
