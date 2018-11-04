@@ -80,10 +80,7 @@ namespace intmines {
             }
         }
 
-        bool Tile::TileDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
-            const Gtk::Allocation allocation = get_allocation();
-            const int width = allocation.get_width();
-            const int height = allocation.get_height();  
+        bool Tile::TileDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) { 
             switch (m_state) {
                 case HIDDEN: {
                     draw_state_hidden(cr);
