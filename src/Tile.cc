@@ -85,22 +85,14 @@ namespace intmines {
         }
 
         void Tile::TileDrawingArea::draw_state_hidden(const Cairo::RefPtr<Cairo::Context>& cr) {
-            const Gtk::Allocation allocation = get_allocation();
-            const int width = allocation.get_width();
-            const int height = allocation.get_height(); 
-            cr->set_line_width(10.0);
+            drawing_utils::BoundingBox bounding_box = drawing_utils::get_outer_bounding_box(*this).scale_center(0.8);
             if (m_pressed_down) {
-                cr->set_source_rgb(0.0, 0.0, 0.8);
+                cr->set_source_rgb(0.3, 0.3, 0.3);
             }
             else {
-                cr->set_source_rgb(0.8, 0.0, 0.0);
+                cr->set_source_rgb(0.2, 0.2, 0.2);
             }
-            cr->move_to(0, 0);
-            cr->line_to(width, 0);
-            cr->line_to(width, height);
-            cr->line_to(0, height);
-            cr->line_to(0, 0);
-            cr->stroke();
+            drawing_utils::draw_curved_rectangle(cr, bounding_box, bounding_box.get_height() * 0.1);
         }
 
         void Tile::TileDrawingArea::draw_state_flagged(const Cairo::RefPtr<Cairo::Context>& cr) {
@@ -110,18 +102,11 @@ namespace intmines {
         }
 
         void Tile::TileDrawingArea::draw_state_empty(const Cairo::RefPtr<Cairo::Context>& cr) {
-            const Gtk::Allocation allocation = get_allocation();
-            const int width = allocation.get_width();
-            const int height = allocation.get_height(); 
-            cr->set_line_width(10.0);
-            cr->set_source_rgb(0.0, 0.8, 0.0);
-            cr->move_to(0, 0);
-            cr->line_to(width, 0);
-            cr->line_to(width, height);
-            cr->line_to(0, height);
-            cr->line_to(0, 0);
-            drawing_utils::draw_number(*this, cr, width/2, height/2, m_adjecent_count);
-            cr->stroke();
+            drawing_utils::BoundingBox bounding_box = drawing_utils::get_outer_bounding_box(*this).scale_center(0.8);
+            cr->set_source_rgb(0.8, 0.8, 0.8);
+            drawing_utils::draw_curved_rectangle(cr, bounding_box, bounding_box.get_height() * 0.1);
+            cr->set_source_rgb(0.0, 0.0, 0.0);
+            drawing_utils::draw_number(cr, *this, bounding_box.get_center_x(), bounding_box.get_center_y(), m_adjecent_count);
         }
     }
 }

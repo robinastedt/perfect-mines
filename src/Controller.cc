@@ -26,7 +26,6 @@ namespace intmines {
 
         void Controller::action_tile_clicked(size_t x, size_t y) {
             m_view.set_tile_empty(x, y, 5);
-            std::cout << "x=" << x << ", y=" << y << std::endl;
         }
     }
 }
