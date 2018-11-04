@@ -148,7 +148,7 @@ namespace intmines {
             cr->stroke();
         }
 
-        void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>& cr) {
+        void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>&) {
         }
 
         void Tile::TileDrawingArea::draw_state_empty(const Cairo::RefPtr<Cairo::Context>& cr) {
