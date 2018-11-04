@@ -22,7 +22,7 @@ SRC = $(wildcard $(SRC_DIR)/*.cc)
 OBJ = $(SRC:$(SRC_DIR)/%.cc=$(OBJ_DIR)/%.o)
 
 CPPFLAGS += -I./src `pkg-config gtkmm-3.0 --cflags`
-CXXFLAGS += -Wall -Wextra -pedantic
+CXXFLAGS += -std=c++17 -O3 -Wall -Wextra -pedantic
 LDLIBS += `pkg-config gtkmm-3.0 --libs`
 
 
