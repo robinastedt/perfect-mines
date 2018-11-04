@@ -30,7 +30,7 @@ namespace intmines {
         }
 
         void Controller::action_tile_right_clicked(size_t x, size_t y) {
-            m_view.set_tile_hidden(x, y);
+            m_view.set_tile_flagged(x, y);
         }
     }
 }

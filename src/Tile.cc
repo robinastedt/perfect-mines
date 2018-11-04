@@ -6,6 +6,24 @@
 
 namespace intmines {
     namespace view {
+        
+        namespace {
+            static const double TILE_HIDDEN_RED            = 0.2,
+                                TILE_HIDDEN_GREEN          = 0.2,
+                                TILE_HIDDEN_BLUE           = 0.2,
+                                TILE_PRESSED_RED           = 0.3,
+                                TILE_PRESSED_GREEN         = 0.3,
+                                TILE_PRESSED_BLUE          = 0.3,
+                                TILE_EMPTY_RED             = 0.8,
+                                TILE_EMPTY_GREEN           = 0.8,
+                                TILE_EMPTY_BLUE            = 0.8,
+                                TILE_EMPTY_TEXT_RED        = 0.0,
+                                TILE_EMPTY_TEXT_GREEN      = 0.0,
+                                TILE_EMPTY_TEXT_BLUE       = 0.0,
+                                TILE_FLAGGED_OVERLAY_RED   = 0.8,
+                                TILE_FLAGGED_OVERLAY_GREEN = 0.0,
+                                TILE_FLAGGED_OVERLAY_BLUE  = 0.0;
+        }
 
         Tile::Tile(Gtk::Box& parent, std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y) :
         m_callbacks(callbacks),
@@ -102,15 +120,32 @@ namespace intmines {
         void Tile::TileDrawingArea::draw_state_hidden(const Cairo::RefPtr<Cairo::Context>& cr) {
             drawing_utils::BoundingBox bounding_box = drawing_utils::get_outer_bounding_box(*this).scale_center(0.8);
             if (m_pressed_down) {
-                cr->set_source_rgb(0.3, 0.3, 0.3);
+                cr->set_source_rgb(TILE_PRESSED_RED,
+                                   TILE_PRESSED_GREEN,
+                                   TILE_PRESSED_BLUE);
             }
             else {
-                cr->set_source_rgb(0.2, 0.2, 0.2);
+                cr->set_source_rgb(TILE_HIDDEN_RED,
+                                   TILE_HIDDEN_GREEN,
+                                   TILE_HIDDEN_BLUE);
             }
             drawing_utils::draw_curved_rectangle(cr, bounding_box, bounding_box.get_height() * 0.1);
         }
 
         void Tile::TileDrawingArea::draw_state_flagged(const Cairo::RefPtr<Cairo::Context>& cr) {
+            drawing_utils::BoundingBox bounding_box = drawing_utils::get_outer_bounding_box(*this).scale_center(0.8);
+            draw_state_hidden(cr);
+            cr->set_source_rgb(TILE_FLAGGED_OVERLAY_RED,
+                               TILE_FLAGGED_OVERLAY_GREEN,
+                               TILE_FLAGGED_OVERLAY_BLUE);
+            
+            drawing_utils::BoundingBox cross_bounding_box = bounding_box.scale_center(0.8);
+            cr->set_line_width(cross_bounding_box.get_height() * 0.1);
+            cr->move_to(cross_bounding_box.x1, cross_bounding_box.y1);
+            cr->line_to(cross_bounding_box.x2, cross_bounding_box.y2);
+            cr->move_to(cross_bounding_box.x1, cross_bounding_box.y2);
+            cr->line_to(cross_bounding_box.x2, cross_bounding_box.y1);
+            cr->stroke();
         }
 
         void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>& cr) {
@@ -118,9 +153,13 @@ namespace intmines {
 
         void Tile::TileDrawingArea::draw_state_empty(const Cairo::RefPtr<Cairo::Context>& cr) {
             drawing_utils::BoundingBox bounding_box = drawing_utils::get_outer_bounding_box(*this).scale_center(0.8);
-            cr->set_source_rgb(0.8, 0.8, 0.8);
+            cr->set_source_rgb(TILE_EMPTY_RED,
+                               TILE_EMPTY_GREEN,
+                               TILE_EMPTY_BLUE);
             drawing_utils::draw_curved_rectangle(cr, bounding_box, bounding_box.get_height() * 0.1);
-            cr->set_source_rgb(0.0, 0.0, 0.0);
+            cr->set_source_rgb(TILE_EMPTY_TEXT_RED,
+                               TILE_EMPTY_TEXT_GREEN,
+                               TILE_EMPTY_TEXT_BLUE);
             drawing_utils::draw_number(cr, *this, bounding_box.get_center_x(), bounding_box.get_center_y(), m_adjecent_count);
         }
     }
