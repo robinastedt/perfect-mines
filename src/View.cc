@@ -19,9 +19,17 @@ namespace intmines {
 
         }
 
-        void
-        View::mark_mine(size_t x, size_t y) {
-            //m_gameboard.mark_mine(x, y);
+        void View::set_tile_hidden(size_t x, size_t y) {
+            m_gameboard.set_tile_state(x, y, Tile::DrawState::HIDDEN);
+        }
+        void View::set_tile_flagged(size_t x, size_t y) {
+            m_gameboard.set_tile_state(x, y, Tile::DrawState::FLAGGED);
+        }
+        void View::set_tile_mine(size_t x, size_t y) {
+            m_gameboard.set_tile_state(x, y, Tile::DrawState::MINE);
+        }
+        void View::set_tile_empty(size_t x, size_t y, int adjecent_count) {
+            m_gameboard.set_tile_state(x, y, Tile::DrawState::EMPTY, adjecent_count);
         }
     }
 }

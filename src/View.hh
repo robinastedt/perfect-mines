@@ -18,7 +18,10 @@ namespace intmines {
             View();
             ~View();
 
-            void mark_mine(size_t x, size_t y);
+            void set_tile_hidden(size_t x, size_t y);
+            void set_tile_flagged(size_t x, size_t y);
+            void set_tile_mine(size_t x, size_t y);
+            void set_tile_empty(size_t x, size_t y, int adjecent_count);
         protected:
             std::shared_ptr<ViewCallbacks> m_callbacks;
             Gtk::Box* m_container;

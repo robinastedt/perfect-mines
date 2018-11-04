@@ -29,10 +29,12 @@ namespace intmines {
             parent.pack_start(*m_container, true, true, 0);
         }
 
-        void Gameboard::mark_mine(size_t x, size_t y) {
-            
+        void Gameboard::set_tile_state(size_t x, size_t y, Tile::DrawState state) {
+            m_tiles[y][x]->set_tile_state(state);
         }
 
-        
+        void Gameboard::set_tile_state(size_t x, size_t y, Tile::DrawState state, int adjecent_count) {
+            m_tiles[y][x]->set_tile_state(state, adjecent_count);
+        }
     }
 }

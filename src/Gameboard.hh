@@ -15,7 +15,8 @@ namespace intmines {
         public:
             Gameboard(Gtk::Box& parent, std::shared_ptr<ViewCallbacks> callbacks, size_t width, size_t height);
 
-            void mark_mine(size_t x, size_t y);
+            void set_tile_state(size_t x, size_t y, Tile::DrawState state);
+            void set_tile_state(size_t x, size_t y, Tile::DrawState state, int adjecent_count);
         protected:
             std::shared_ptr<ViewCallbacks> m_callbacks;
             Gtk::Box* m_container;
