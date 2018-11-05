@@ -42,10 +42,12 @@ namespace intmines {
                 return bounding_box;
             }
 
-            void draw_string(const Cairo::RefPtr<Cairo::Context>& cr, Gtk::Widget& widget, double x, double y, std::string string) {
-                static Pango::FontDescription font;
+            void draw_string(const Cairo::RefPtr<Cairo::Context>& cr, Gtk::Widget& widget, BoundingBox bounding_box, std::string string) {
+                Pango::FontDescription font;
                 font.set_family("Monospace");
                 font.set_weight(Pango::WEIGHT_NORMAL);
+                font.set_absolute_size(bounding_box.get_height() * PANGO_SCALE);
+                
 
                 Glib::RefPtr<Pango::Layout> layout = widget.create_pango_layout(string);
                 layout->set_font_description(font);
@@ -54,16 +56,16 @@ namespace intmines {
                 int text_height;
                 layout->get_pixel_size(text_width, text_height);
 
-                const double text_xpos = x - (static_cast<double>(text_width) / 2.0);
-                const double text_ypos = y - (static_cast<double>(text_height) / 2.0);
+                const double text_xpos = bounding_box.get_center_x() - (static_cast<double>(text_width) / 2.0);
+                const double text_ypos = bounding_box.get_center_y() - (static_cast<double>(text_height) / 2.0);
                 cr->move_to(text_xpos, text_ypos);
 
                 layout->show_in_cairo_context(cr);
             }
 
-            void draw_number(const Cairo::RefPtr<Cairo::Context>& cr, Gtk::Widget& widget, double x, double y, int number) {
+            void draw_number(const Cairo::RefPtr<Cairo::Context>& cr, Gtk::Widget& widget, BoundingBox bounding_box, int number) {
                 const std::string string = std::to_string(number);
-                draw_string(cr, widget, x, y, string);
+                draw_string(cr, widget, bounding_box, string);
             }
 
             void draw_curved_rectangle(const Cairo::RefPtr<Cairo::Context>& cr, BoundingBox bounding_box, double radius) {

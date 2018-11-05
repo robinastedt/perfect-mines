@@ -160,7 +160,7 @@ namespace intmines {
             cr->set_source_rgb(TILE_EMPTY_TEXT_RED,
                                TILE_EMPTY_TEXT_GREEN,
                                TILE_EMPTY_TEXT_BLUE);
-            drawing_utils::draw_number(cr, *this, bounding_box.get_center_x(), bounding_box.get_center_y(), m_adjecent_count);
+            drawing_utils::draw_number(cr, *this, bounding_box, m_adjecent_count);
         }
     }
 }
