@@ -2,10 +2,6 @@
 
 #include <ViewCallbacks.hh>
 
-#include <iostream>
-
-
-
 namespace intmines {
     namespace controller {
 
