@@ -18,13 +18,12 @@ OBJ_DIR = obj
 
 CXX = g++
 
-SRC = $(wildcard $(SRC_DIR)/*.cc)
+SRC = $(wildcard $(SRC_DIR)/*.cc) $(wildcard $(SRC_DIR)/view/*.cc) $(wildcard $(SRC_DIR)/controller/*.cc) $(wildcard $(SRC_DIR)model/*.cc)
 OBJ = $(SRC:$(SRC_DIR)/%.cc=$(OBJ_DIR)/%.o)
 
 CPPFLAGS += -I./src `pkg-config gtkmm-3.0 --cflags`
 CXXFLAGS += -std=c++17 -O3 -Wall -Wextra -pedantic
 LDLIBS += `pkg-config gtkmm-3.0 --libs`
-
 
 all: $(EXE)
 

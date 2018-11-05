@@ -1,6 +1,6 @@
 #include "Tile.hh"
 
-#include <DrawingUtils.hh>
+#include <view/DrawingUtils.hh>
 
 #include <gtkmm/window.h>
 

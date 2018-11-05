@@ -1,6 +1,6 @@
 #pragma once
 
-#include <View.hh>
+#include <view/View.hh>
 
 #include <gtkmm/window.h>
 

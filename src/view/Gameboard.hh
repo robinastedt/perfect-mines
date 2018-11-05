@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ViewCallbacks.hh>
-#include <Tile.hh>
+#include <view/ViewCallbacks.hh>
+#include <view/Tile.hh>
 
 #include <gtkmm/box.h>
 

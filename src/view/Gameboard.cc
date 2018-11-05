@@ -1,9 +1,6 @@
 #include "Gameboard.hh"
 
-#include <ViewCallbacks.hh>
-
 #include <gtkmm/image.h>
-
 
 #include <iostream>
 #include <functional>

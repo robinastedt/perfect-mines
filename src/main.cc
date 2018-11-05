@@ -1,8 +1,9 @@
-#include <Controller.hh>
+#include <controller/Controller.hh>
+
+#include <view/View.hh>
 
 #include <gtkmm/application.h>
-#include <View.hh>
-#include <Controller.hh>
+
 
 int main(int argc, char** argv) {
     

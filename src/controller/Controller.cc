@@ -1,6 +1,6 @@
 #include "Controller.hh"
 
-#include <ViewCallbacks.hh>
+#include <view/ViewCallbacks.hh>
 
 namespace intmines {
     namespace controller {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ViewCallbacks.hh>
+#include <view/ViewCallbacks.hh>
 
 #include <gtkmm/box.h>
 #include <gtkmm/drawingarea.h>

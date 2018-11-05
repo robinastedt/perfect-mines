@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Gameboard.hh>
-#include <ViewCallbacks.hh>
+#include <view/Gameboard.hh>
+#include <view/ViewCallbacks.hh>
 
 #include <gtkmm/box.h>
 #include <gtkmm/window.h>
