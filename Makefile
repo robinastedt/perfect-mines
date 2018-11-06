@@ -1,5 +1,5 @@
 
-EXE = intelligent-mines
+EXE = perfect-mines
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -10,10 +10,11 @@ SRC = $(wildcard $(SRC_DIR)/*.cc) $(wildcard $(SRC_DIR)/view/*.cc) $(wildcard $(
 OBJ = $(SRC:$(SRC_DIR)/%.cc=$(OBJ_DIR)/%.o)
 
 CPPFLAGS += -I./src `pkg-config gtkmm-3.0 --cflags`
-CXXFLAGS += -std=c++17 -O3 -Wall -Wextra -pedantic
+all : CXXFLAGS += -std=c++17 -O3 -Wall -Wextra -pedantic
+debug : CXXFLAGS += -std=c++17 -g -Wall -Wextra -pedantic
 LDLIBS += `pkg-config gtkmm-3.0 --libs`
 
-all: $(EXE)
+all debug: $(EXE)
 
 $(EXE): $(OBJ)
 	$(CXX) $^ $(LDLIBS) -o $@
