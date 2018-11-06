@@ -79,6 +79,20 @@ namespace pmines {
 
                 cr->fill();
             }
+
+            void draw_circle(const Cairo::RefPtr<Cairo::Context>& cr, BoundingBox bounding_box, double radius) {
+                const double x = bounding_box.get_center_x(),
+                             y = bounding_box.get_center_y();
+                
+                cr->begin_new_sub_path();
+                cr->arc(x, y, radius, -M_PI_2, 0);     // Top right
+                cr->arc(x, y, radius, 0, M_PI_2);      // Bottom right
+                cr->arc(x, y, radius, M_PI_2, M_PI);   // Bottom left
+                cr->arc(x, y, radius, M_PI, 3*M_PI_2); // Top left
+                cr->close_path();
+
+                cr->fill();
+            }
         }
         
     }

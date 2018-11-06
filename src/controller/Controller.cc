@@ -31,7 +31,8 @@ namespace pmines {
         void Controller::action_tile_left_clicked(int x, int y) {
             if (m_gamestate.is_hidden(x, y)) {
                 if (m_gamestate.is_mine(x, y)) {
-                    m_view->set_tile_flagged(x, y);
+                    // TODO: Handle properly, can now be reset by flagging
+                    m_view->set_tile_mine(x, y);
                 }
                 else {
                     reveal_tile(x, y);

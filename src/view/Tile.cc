@@ -20,7 +20,10 @@ namespace pmines {
                                 TILE_EMPTY_TEXT_BLUE       = 0.0,
                                 TILE_FLAGGED_OVERLAY_RED   = 0.8,
                                 TILE_FLAGGED_OVERLAY_GREEN = 0.0,
-                                TILE_FLAGGED_OVERLAY_BLUE  = 0.0;
+                                TILE_FLAGGED_OVERLAY_BLUE  = 0.0,
+                                TILE_MINE_OVERLAY_RED      = 0.8,
+                                TILE_MINE_OVERLAY_GREEN    = 0.0,
+                                TILE_MINE_OVERLAY_BLUE     = 0.0;
         }
 
         Tile::Tile(std::shared_ptr<ViewCallbacks> callbacks, int x, int y) :
@@ -145,7 +148,17 @@ namespace pmines {
             cr->stroke();
         }
 
-        void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>&) {
+        void Tile::TileDrawingArea::draw_state_mine(const Cairo::RefPtr<Cairo::Context>& cr) {
+            drawing_utils::BoundingBox bounding_box = drawing_utils::get_outer_bounding_box(*this).scale_center(0.8);
+            cr->set_source_rgb(TILE_HIDDEN_RED,
+                                   TILE_HIDDEN_GREEN,
+                                   TILE_HIDDEN_BLUE);
+            drawing_utils::draw_curved_rectangle(cr, bounding_box, bounding_box.get_height() * 0.1);
+            drawing_utils::BoundingBox cirle_bounding_box = bounding_box.scale_center(0.8);
+            cr->set_source_rgb(TILE_MINE_OVERLAY_RED,
+                               TILE_MINE_OVERLAY_GREEN,
+                               TILE_MINE_OVERLAY_BLUE);
+            drawing_utils::draw_circle(cr, cirle_bounding_box, cirle_bounding_box.get_height() * 0.5);
         }
 
         void Tile::TileDrawingArea::draw_state_empty(const Cairo::RefPtr<Cairo::Context>& cr) {

@@ -20,6 +20,7 @@ namespace pmines {
             void draw_string(const Cairo::RefPtr<Cairo::Context>& cr, Gtk::Widget& widget, BoundingBox bounding_box, std::string string);
             void draw_number(const Cairo::RefPtr<Cairo::Context>& cr, Gtk::Widget& widget, BoundingBox bounding_box, int number);
             void draw_curved_rectangle(const Cairo::RefPtr<Cairo::Context>& cr, BoundingBox bounding_box, double radius);
+            void draw_circle(const Cairo::RefPtr<Cairo::Context>& cr, BoundingBox bounding_box, double radius);
         }
     }
 }
