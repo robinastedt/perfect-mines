@@ -2,28 +2,27 @@
 
 #include <gtkmm/image.h>
 
-#include <iostream>
 #include <functional>
 
 namespace pmines {
     namespace view {
 
 
-        Gameboard::Gameboard(Gtk::Box& parent, std::shared_ptr<ViewCallbacks> callbacks, size_t width, size_t height) :
+        Gameboard::Gameboard(std::shared_ptr<ViewCallbacks> callbacks, size_t width, size_t height) :
+        Gtk::Box(Gtk::ORIENTATION_VERTICAL),
         m_callbacks(callbacks),
-        m_container(Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL))),
-        m_tiles(height, std::vector<std::shared_ptr<Tile>>(width)) {
-            m_container->set_border_width(0);
+        m_tiles(height, std::vector<Tile*>(width)) {
+            set_border_width(0);
             for (size_t y = 0; y < height; y++) {
                 Gtk::Box* row_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+                pack_start(*row_box, true, true, 0);
                 row_box->set_border_width(0);
                 for (size_t x = 0; x < width; x++) {
-                    std::shared_ptr<Tile> tile = std::make_shared<Tile>(*row_box, callbacks, x, y);
+                    Tile* tile = Gtk::manage(new Tile(callbacks, x, y));
+                    row_box->pack_start(*tile, true, true, 0);
                     m_tiles[y][x] = tile;
                 }
-                m_container->pack_start(*row_box, true, true, 0);
             }
-            parent.pack_start(*m_container, true, true, 0);
         }
 
         void Gameboard::set_tile_state(size_t x, size_t y, Tile::DrawState state) {

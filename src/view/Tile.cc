@@ -3,6 +3,7 @@
 #include <view/DrawingUtils.hh>
 
 #include <gtkmm/window.h>
+#include <iostream>
 
 namespace pmines {
     namespace view {
@@ -25,17 +26,16 @@ namespace pmines {
                                 TILE_FLAGGED_OVERLAY_BLUE  = 0.0;
         }
 
-        Tile::Tile(Gtk::Box& parent, std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y) :
+        Tile::Tile(std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y) :
+        Gtk::EventBox(),
         m_callbacks(callbacks),
         m_x(x),
         m_y(y),
-        m_event_box(Gtk::manage(new Gtk::EventBox())),
         m_drawing_area(Gtk::manage(new TileDrawingArea())) {
-            m_event_box->add(*m_drawing_area);
-            parent.pack_start(*m_event_box);
+            add(*m_drawing_area);
 
-            m_event_box->signal_button_press_event().connect(sigc::mem_fun(*this, &Tile::on_tile_pressed));
-            m_event_box->signal_button_release_event().connect(sigc::mem_fun(*this, &Tile::on_tile_released));
+            signal_button_press_event().connect(sigc::mem_fun(*this, &Tile::on_tile_pressed));
+            signal_button_release_event().connect(sigc::mem_fun(*this, &Tile::on_tile_released));
         }
 
         bool

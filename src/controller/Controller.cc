@@ -5,14 +5,20 @@
 namespace pmines {
     namespace controller {
 
-        Controller::Controller(Gtk::Window& window) :
-        m_view(window, create_callbacks()),
+        Controller::Controller() :
         m_gamestate(10,10,16) {
 
         }
 
         Controller::~Controller() {
 
+        }
+
+        int Controller::run(int argc, char** argv) {
+            // TODO:: Add options for headless modes, etc.
+            auto callbacks = create_callbacks();
+            m_view = std::make_unique<view::View>(callbacks);
+            return m_view->run(argc, argv);
         }
 
         std::shared_ptr<view::ViewCallbacks> Controller::create_callbacks() {
@@ -24,15 +30,15 @@ namespace pmines {
 
         void Controller::action_tile_left_clicked(size_t x, size_t y) {
             if (m_gamestate.is_mine(x, y)) {
-                m_view.set_tile_flagged(x, y);
+                m_view->set_tile_flagged(x, y);
             }
             else {
-                m_view.set_tile_empty(x, y, 5);
+                m_view->set_tile_empty(x, y, 5);
             }
         }
 
         void Controller::action_tile_right_clicked(size_t x, size_t y) {
-            m_view.set_tile_hidden(x, y);
+            m_view->set_tile_hidden(x, y);
         }
     }
 }

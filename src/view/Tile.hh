@@ -11,7 +11,7 @@ namespace pmines {
         
         
 
-        class Tile {
+        class Tile : public Gtk::EventBox {
         public:
             enum DrawState {
                 HIDDEN,
@@ -20,7 +20,7 @@ namespace pmines {
                 EMPTY
             };
 
-            Tile(Gtk::Box& parent, std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y);
+            Tile(std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y);
             void set_tile_state(DrawState state);
             void set_tile_state(DrawState state, int adjecent_count);
 
@@ -48,9 +48,8 @@ namespace pmines {
             size_t m_x;
             size_t m_y;
 
-            Gtk::EventBox* m_event_box;
+            // Memory managed by Gtk
             TileDrawingArea* m_drawing_area;
-
         };
     }
 }
