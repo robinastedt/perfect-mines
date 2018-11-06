@@ -23,6 +23,8 @@ namespace pmines {
             model::GameState m_gamestate;
             std::unique_ptr<view::View> m_view;
             void reveal_tile(int x, int y);
+            void flag_tile(int x, int y);
+            void unflag_tile(int x, int y);
         };
     }
 }

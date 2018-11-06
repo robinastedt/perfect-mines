@@ -29,11 +29,22 @@ namespace pmines {
         }
 
         void Controller::action_tile_left_clicked(int x, int y) {
-            if (m_gamestate.is_mine(x, y)) {
-                m_view->set_tile_flagged(x, y);
+            if (m_gamestate.is_hidden(x, y)) {
+                if (m_gamestate.is_mine(x, y)) {
+                    m_view->set_tile_flagged(x, y);
+                }
+                else {
+                    reveal_tile(x, y);
+                }
             }
-            else {
-                reveal_tile(x, y);
+        }
+
+        void Controller::action_tile_right_clicked(int x, int y) {
+            if (m_gamestate.is_flagged(x, y)) {
+                unflag_tile(x, y);
+            }
+            else if (m_gamestate.is_hidden(x, y)) {
+                flag_tile(x, y);
             }
         }
 
@@ -44,7 +55,7 @@ namespace pmines {
             if (mines == 0) {
                 for (int _x = std::max(0, x-1); _x < std::min(m_gamestate.get_width(), x + 2); _x++) {
                     for (int _y = std::max(0, y-1); _y < std::min(m_gamestate.get_height(), y + 2); _y++) {
-                        if (not m_gamestate.is_revealed(_x, _y)) {
+                        if (m_gamestate.is_hidden(_x, _y)) {
                             reveal_tile(_x, _y);
                         }
                     }
@@ -52,8 +63,16 @@ namespace pmines {
             }
         }
 
-        void Controller::action_tile_right_clicked(int x, int y) {
+        void Controller::flag_tile(int x, int y) {
+            m_gamestate.flag(x, y);
+            m_view->set_tile_flagged(x, y);
+        }
+
+        void Controller::unflag_tile(int x, int y) {
+            m_gamestate.unflag(x, y);
             m_view->set_tile_hidden(x, y);
         }
+
+        
     }
 }

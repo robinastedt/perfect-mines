@@ -14,7 +14,7 @@ namespace pmines {
         m_width(width),
         m_height(height),
         m_mines(width, std::vector<bool>(height, false)),
-        m_revealed(width, std::vector<bool>(height, false)) {
+        m_tile_state(width, std::vector<TileState>(height, HIDDEN)) {
             const int total_tiles = width * height;
             std::vector<int> tiles(total_tiles);
             std::iota(tiles.begin(), tiles.end(), 0u);
@@ -49,11 +49,27 @@ namespace pmines {
         }
 
         bool GameState::is_revealed(int x, int y) {
-            return m_revealed[x][y];
+            return m_tile_state[x][y] == REVEALED;
+        }
+        
+        bool GameState::is_flagged(int x, int y) {
+            return m_tile_state[x][y] == FLAGGED;
+        }
+
+        bool GameState::is_hidden(int x, int y) {
+            return m_tile_state[x][y] == HIDDEN;
         }
 
         void GameState::reveal(int x, int y) {
-            m_revealed[x][y] = true;
+            m_tile_state[x][y] = REVEALED;
+        }
+
+        void GameState::flag(int x, int y) {
+            m_tile_state[x][y] = FLAGGED;
+        }
+
+        void GameState::unflag(int x, int y) {
+            m_tile_state[x][y] = HIDDEN;
         }
     }
 }
