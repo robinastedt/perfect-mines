@@ -1,6 +1,7 @@
 #pragma once
 
 #include <view/View.hh>
+#include <model/GameState.hh>
 
 #include <gtkmm/window.h>
 
@@ -21,6 +22,7 @@ namespace intmines {
             std::shared_ptr<view::ViewCallbacks> create_callbacks();
 
             view::View m_view;
+            model::GameState m_gamestate;
         };
     }
 }
