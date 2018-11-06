@@ -1,15 +1,3 @@
-#EXEC=intelligent-mines
-#SRC=main.cc view/View.cc
-#GTKMM_FLAGS=`pkg-config gtkmm-3.0 --cflags --libs`
-#CXXFLAGS=-Wall -Wextra -pedantic -std=c++17 $(GTKMM_FLAGS)
-#CXX=g++
-#
-#compile:
-#	$(CXX) -o $(EXEC) $(SRC) $(CXXFLAGS)
-#
-#run: compile
-#	./$(EXEC)
-
 
 EXE = intelligent-mines
 
