@@ -4,7 +4,7 @@
 #include <pangomm/layout.h>
 #include <pangomm/context.h>
 
-namespace intmines {
+namespace pmines {
     namespace view {
         namespace drawing_utils {
             double BoundingBox::get_center_x() {

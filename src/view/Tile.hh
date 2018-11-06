@@ -6,7 +6,7 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/eventbox.h>
 
-namespace intmines {
+namespace pmines {
     namespace view {
         
         

@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace intmines {
+namespace pmines {
     namespace model {
         class GameState {
         public:

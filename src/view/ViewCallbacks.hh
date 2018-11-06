@@ -3,7 +3,7 @@
 #include <functional>
 #include <cstddef>
 
-namespace intmines {
+namespace pmines {
     namespace view {
         struct ViewCallbacks {
             std::function<void(size_t, size_t)> tile_left_clicked;

@@ -9,7 +9,7 @@
 #include <gtkmm/button.h>
 #include <gtkmm/separator.h>
 
-namespace intmines {
+namespace pmines {
     namespace view {
 
         class View {

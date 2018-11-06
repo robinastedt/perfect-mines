@@ -4,7 +4,7 @@
 
 #include <gtkmm/application.h>
 
-namespace intmines {
+namespace pmines {
     namespace view {
         View::View(Gtk::Window& window, std::shared_ptr<ViewCallbacks> callbacks) :
         m_callbacks(callbacks),

@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 
-namespace intmines {
+namespace pmines {
     namespace view {
 
         class Gameboard {

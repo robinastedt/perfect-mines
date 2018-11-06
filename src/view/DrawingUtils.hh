@@ -3,7 +3,7 @@
 #include <gtkmm/widget.h>
 #include <cairomm/context.h>
 
-namespace intmines {
+namespace pmines {
     namespace view {
         namespace drawing_utils {
             struct BoundingBox {

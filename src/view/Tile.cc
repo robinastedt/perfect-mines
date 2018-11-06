@@ -4,7 +4,7 @@
 
 #include <gtkmm/window.h>
 
-namespace intmines {
+namespace pmines {
     namespace view {
         
         namespace {

@@ -3,7 +3,7 @@
 #include <numeric>
 #include <algorithm>
 
-namespace intmines {
+namespace pmines {
     namespace model {
         GameState::GameState(size_t width, size_t height, size_t mines) :
         m_mines(width, std::vector<bool>(height, false)) {

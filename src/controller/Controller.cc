@@ -2,7 +2,7 @@
 
 #include <view/ViewCallbacks.hh>
 
-namespace intmines {
+namespace pmines {
     namespace controller {
 
         Controller::Controller(Gtk::Window& window) :

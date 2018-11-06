@@ -5,7 +5,7 @@
 #include <iostream>
 #include <functional>
 
-namespace intmines {
+namespace pmines {
     namespace view {
 
 

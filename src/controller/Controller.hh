@@ -8,7 +8,7 @@
 #include <memory>
 #include <cstddef>
 
-namespace intmines {
+namespace pmines {
     namespace controller {
         class Controller {
         public:
