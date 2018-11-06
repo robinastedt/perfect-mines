@@ -1,7 +1,6 @@
 #pragma once
 
 #include <gtkmm/widget.h>
-#include <cairomm/context.h>
 
 namespace pmines {
     namespace view {

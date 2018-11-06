@@ -2,7 +2,6 @@
 
 #include <view/ViewCallbacks.hh>
 
-#include <gtkmm/box.h>
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/eventbox.h>
 

@@ -5,9 +5,6 @@
 
 #include <gtkmm/box.h>
 #include <gtkmm/window.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/button.h>
-#include <gtkmm/separator.h>
 
 namespace pmines {
     namespace view {

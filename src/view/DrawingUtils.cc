@@ -1,9 +1,5 @@
 #include "DrawingUtils.hh"
 
-#include <pangomm/font.h>
-#include <pangomm/layout.h>
-#include <pangomm/context.h>
-
 namespace pmines {
     namespace view {
         namespace drawing_utils {

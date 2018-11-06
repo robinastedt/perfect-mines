@@ -1,9 +1,5 @@
 #include "Gameboard.hh"
 
-#include <gtkmm/image.h>
-
-#include <functional>
-
 namespace pmines {
     namespace view {
 

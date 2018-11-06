@@ -2,9 +2,6 @@
 
 #include <view/DrawingUtils.hh>
 
-#include <gtkmm/window.h>
-#include <iostream>
-
 namespace pmines {
     namespace view {
         

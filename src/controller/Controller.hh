@@ -3,8 +3,6 @@
 #include <view/View.hh>
 #include <model/GameState.hh>
 
-#include <gtkmm/window.h>
-
 #include <memory>
 #include <cstddef>
 

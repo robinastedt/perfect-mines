@@ -1,7 +1,5 @@
 #include "View.hh"
 
-#include <iostream>
-
 #include <gtkmm/application.h>
 
 namespace pmines {
