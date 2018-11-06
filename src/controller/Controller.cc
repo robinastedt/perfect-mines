@@ -33,7 +33,8 @@ namespace pmines {
                 m_view->set_tile_flagged(x, y);
             }
             else {
-                m_view->set_tile_empty(x, y, 5);
+                const int mines = m_gamestate.get_neighbouring_mines(x, y);
+                m_view->set_tile_empty(x, y, mines);
             }
         }
 
