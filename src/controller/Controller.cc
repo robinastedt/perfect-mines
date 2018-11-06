@@ -33,8 +33,22 @@ namespace pmines {
                 m_view->set_tile_flagged(x, y);
             }
             else {
-                const int mines = m_gamestate.get_neighbouring_mines(x, y);
-                m_view->set_tile_empty(x, y, mines);
+                reveal_tile(x, y);
+            }
+        }
+
+        void Controller::reveal_tile(int x, int y) {
+            const int mines = m_gamestate.get_neighbouring_mines(x, y);
+            m_gamestate.reveal(x, y);
+            m_view->set_tile_empty(x, y, mines);
+            if (mines == 0) {
+                for (int _x = std::max(0, x-1); _x < std::min(m_gamestate.get_width(), x + 2); _x++) {
+                    for (int _y = std::max(0, y-1); _y < std::min(m_gamestate.get_height(), y + 2); _y++) {
+                        if (not m_gamestate.is_revealed(_x, _y)) {
+                            reveal_tile(_x, _y);
+                        }
+                    }
+                }
             }
         }
 
