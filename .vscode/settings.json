@@ -48,6 +48,7 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "valarray": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "numeric": "cpp"
     }
 }
