@@ -20,7 +20,7 @@ namespace pmines {
 
         protected:
             std::shared_ptr<view::ViewCallbacks> create_callbacks();
-            model::GameState m_gamestate;
+            std::unique_ptr<model::GameState> m_gamestate;
             std::unique_ptr<view::View> m_view;
             void reveal_tile(int x, int y);
             void flag_tile(int x, int y);
