@@ -6,7 +6,7 @@ namespace pmines {
     namespace controller {
 
         Controller::Controller() :
-        m_gamestate(10,10,16) {
+        m_gamestate(10, 10, 16, 1u) {
 
         }
 

@@ -1,29 +1,36 @@
 #include "GameState.hh"
 
 #include <numeric>
-#include <algorithm>
 
-#include <iostream>
+#include <random>
 
 namespace pmines {
     namespace model {
 
+        namespace {
+            std::vector<std::vector<bool>> get_random_minefield(int width, int height, int mines, unsigned seed) {
+                const int total_tiles = width * height;
+                std::vector<int> tiles(total_tiles);
+                std::iota(tiles.begin(), tiles.end(), 0);
+                std::minstd_rand generator(seed);
+                std::vector<std::vector<bool>> minefield(width, std::vector<bool>(height, false));
+                for (int i = 0; i < mines; i++) {
+                    std::uniform_int_distribution<int> distribution(i, total_tiles - 1);
+                    const int selected = distribution(generator);
+                    const int x = selected % width;
+                    const int y = selected / height;
+                    minefield[x][y] = true;
+                    tiles[selected] = tiles[i];
+                }
+                return minefield;
+            }
+        }
 
-
-        GameState::GameState(int width, int height, int mines) :
+        GameState::GameState(int width, int height, int mines, unsigned seed) :
         m_width(width),
         m_height(height),
-        m_mines(width, std::vector<bool>(height, false)),
+        m_mines(get_random_minefield(width, height, mines, seed)),
         m_tile_state(width, std::vector<TileState>(height, HIDDEN)) {
-            const int total_tiles = width * height;
-            std::vector<int> tiles(total_tiles);
-            std::iota(tiles.begin(), tiles.end(), 0u);
-            std::random_shuffle(tiles.begin(), tiles.end());
-            for (auto it = tiles.begin(); it != tiles.begin() + mines; it++) {
-                const int x = *it % width;
-                const int y = *it / width;
-                m_mines[x][y] = true;
-            }
         }
 
         int GameState::get_width() {

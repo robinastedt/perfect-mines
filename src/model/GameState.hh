@@ -13,7 +13,7 @@ namespace pmines {
                 FLAGGED
             };
 
-            GameState(int width, int height, int mines);
+            GameState(int width, int height, int mines, unsigned seed);
             int get_width();
             int get_height();
             bool is_mine(int x, int y);
