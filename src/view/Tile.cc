@@ -154,10 +154,12 @@ namespace pmines {
                                TILE_EMPTY_GREEN,
                                TILE_EMPTY_BLUE);
             drawing_utils::draw_curved_rectangle(cr, bounding_box, bounding_box.get_height() * 0.1);
-            cr->set_source_rgb(TILE_EMPTY_TEXT_RED,
+            if (m_adjecent_count != 0) {
+                cr->set_source_rgb(TILE_EMPTY_TEXT_RED,
                                TILE_EMPTY_TEXT_GREEN,
                                TILE_EMPTY_TEXT_BLUE);
-            drawing_utils::draw_number(cr, *this, bounding_box, m_adjecent_count);
+                drawing_utils::draw_number(cr, *this, bounding_box, m_adjecent_count);
+            }
         }
     }
 }
