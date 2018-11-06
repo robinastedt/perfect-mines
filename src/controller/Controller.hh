@@ -15,8 +15,8 @@ namespace pmines {
 
             int run(int argc, char** argv);
             
-            void action_tile_left_clicked(size_t x, size_t y);
-            void action_tile_right_clicked(size_t x, size_t y);
+            void action_tile_left_clicked(int x, int y);
+            void action_tile_right_clicked(int x, int y);
 
         protected:
             std::shared_ptr<view::ViewCallbacks> create_callbacks();

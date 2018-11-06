@@ -16,12 +16,12 @@ namespace pmines {
 
             int run(int argc, char** argv);
 
-            void reset_gameboard(size_t width, size_t height);
+            void reset_gameboard(int width, int height);
 
-            void set_tile_hidden(size_t x, size_t y);
-            void set_tile_flagged(size_t x, size_t y);
-            void set_tile_mine(size_t x, size_t y);
-            void set_tile_empty(size_t x, size_t y, int adjecent_count);
+            void set_tile_hidden(int x, int y);
+            void set_tile_flagged(int x, int y);
+            void set_tile_mine(int x, int y);
+            void set_tile_empty(int x, int y, int adjecent_count);
         protected:
             std::shared_ptr<ViewCallbacks> m_callbacks;
 

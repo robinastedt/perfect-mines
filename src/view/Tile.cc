@@ -23,7 +23,7 @@ namespace pmines {
                                 TILE_FLAGGED_OVERLAY_BLUE  = 0.0;
         }
 
-        Tile::Tile(std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y) :
+        Tile::Tile(std::shared_ptr<ViewCallbacks> callbacks, int x, int y) :
         Gtk::EventBox(),
         m_callbacks(callbacks),
         m_x(x),

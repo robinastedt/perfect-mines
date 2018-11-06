@@ -28,7 +28,7 @@ namespace pmines {
             return callbacks;
         }
 
-        void Controller::action_tile_left_clicked(size_t x, size_t y) {
+        void Controller::action_tile_left_clicked(int x, int y) {
             if (m_gamestate.is_mine(x, y)) {
                 m_view->set_tile_flagged(x, y);
             }
@@ -37,7 +37,7 @@ namespace pmines {
             }
         }
 
-        void Controller::action_tile_right_clicked(size_t x, size_t y) {
+        void Controller::action_tile_right_clicked(int x, int y) {
             m_view->set_tile_hidden(x, y);
         }
     }

@@ -19,7 +19,7 @@ namespace pmines {
                 EMPTY
             };
 
-            Tile(std::shared_ptr<ViewCallbacks> callbacks, size_t x, size_t y);
+            Tile(std::shared_ptr<ViewCallbacks> callbacks, int x, int y);
             void set_tile_state(DrawState state);
             void set_tile_state(DrawState state, int adjecent_count);
 
@@ -44,8 +44,8 @@ namespace pmines {
             bool on_tile_released(GdkEventButton*);
 
             std::shared_ptr<ViewCallbacks> m_callbacks;
-            size_t m_x;
-            size_t m_y;
+            int m_x;
+            int m_y;
 
             // Memory managed by Gtk
             TileDrawingArea* m_drawing_area;

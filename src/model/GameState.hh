@@ -7,8 +7,8 @@ namespace pmines {
     namespace model {
         class GameState {
         public:
-            GameState(size_t width, size_t height, size_t mines);
-            bool is_mine(size_t x, size_t y);
+            GameState(int width, int height, int mines);
+            bool is_mine(int x, int y);
         protected:
             std::vector<std::vector<bool>> m_mines;
         };

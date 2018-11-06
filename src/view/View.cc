@@ -25,21 +25,21 @@ namespace pmines {
             return app->run(window);
         }
 
-        void View::reset_gameboard(size_t width, size_t height) {
+        void View::reset_gameboard(int width, int height) {
             m_gameboard = Gtk::manage(new Gameboard(m_callbacks, width, height));
             m_container->pack_start(*m_gameboard);
         }
 
-        void View::set_tile_hidden(size_t x, size_t y) {
+        void View::set_tile_hidden(int x, int y) {
             m_gameboard->set_tile_state(x, y, Tile::DrawState::HIDDEN);
         }
-        void View::set_tile_flagged(size_t x, size_t y) {
+        void View::set_tile_flagged(int x, int y) {
             m_gameboard->set_tile_state(x, y, Tile::DrawState::FLAGGED);
         }
-        void View::set_tile_mine(size_t x, size_t y) {
+        void View::set_tile_mine(int x, int y) {
             m_gameboard->set_tile_state(x, y, Tile::DrawState::MINE);
         }
-        void View::set_tile_empty(size_t x, size_t y, int adjecent_count) {
+        void View::set_tile_empty(int x, int y, int adjecent_count) {
             m_gameboard->set_tile_state(x, y, Tile::DrawState::EMPTY, adjecent_count);
         }
     }

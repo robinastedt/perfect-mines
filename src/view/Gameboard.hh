@@ -13,10 +13,10 @@ namespace pmines {
 
         class Gameboard : public Gtk::Box {
         public:
-            Gameboard(std::shared_ptr<ViewCallbacks> callbacks, size_t width, size_t height);
+            Gameboard(std::shared_ptr<ViewCallbacks> callbacks, int width, int height);
 
-            void set_tile_state(size_t x, size_t y, Tile::DrawState state);
-            void set_tile_state(size_t x, size_t y, Tile::DrawState state, int adjecent_count);
+            void set_tile_state(int x, int y, Tile::DrawState state);
+            void set_tile_state(int x, int y, Tile::DrawState state, int adjecent_count);
         protected:
             std::shared_ptr<ViewCallbacks> m_callbacks;
 
