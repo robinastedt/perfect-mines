@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstddef>
 #include <vector>
+#include <set>
 
 namespace pmines {
     namespace model {
@@ -27,8 +27,10 @@ namespace pmines {
         protected:
             int m_width;
             int m_height;
-            static std::vector<std::vector<bool>> get_random_minefield(int width, int height, int mines, unsigned seed);
-            static std::vector<std::vector<bool>> get_random_minefield(int width, int height, int mines, unsigned seed, int x, int y);
+
+            static std::set<int> _get_reserved(int width, int height, int x, int y);
+            static std::vector<std::vector<bool>> _random_minefield(int width, int height, int mines, unsigned seed, const std::set<int>& reserved);
+
             std::vector<std::vector<bool>> m_mines;
             std::vector<std::vector<TileState>> m_tile_state;
         };
