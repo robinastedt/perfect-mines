@@ -33,7 +33,7 @@ namespace pmines {
                     end--;
                 }
                 else {
-                    const int _x = tiles[selected] / width;
+                    const int _x = tiles[selected] / height;
                     const int _y = tiles[selected] % height;
                     minefield[_x][_y] = true;
                     std::swap(tiles[selected], tiles[i]);
