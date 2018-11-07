@@ -2,49 +2,49 @@
 
 #include <numeric>
 #include <random>
+#include <set>
 
 namespace pmines {
     namespace model {
-
-        std::set<int> GameState::_get_reserved(int width, int height, int x, int y) {
-            std::set<int> reserved_tiles;
-            for (int _x = std::max(0, x-1); _x < std::min(width, x + 2); _x++) {
-                for (int _y = std::max(0, y-1); _y < std::min(height, y + 2); _y++) {
-                    const int reserved = _x * height + _y;
-                    reserved_tiles.insert(reserved);
+        
+        namespace {
+            static std::set<int> _get_reserved(int width, int height, int x, int y) {
+                std::set<int> reserved_tiles;
+                for (int _x = std::max(0, x-1); _x < std::min(width, x + 2); _x++) {
+                    for (int _y = std::max(0, y-1); _y < std::min(height, y + 2); _y++) {
+                        const int reserved = _x * height + _y;
+                        reserved_tiles.insert(reserved);
+                    }
                 }
+                return reserved_tiles;
             }
-            return reserved_tiles;
-        }
 
-        std::vector<std::vector<bool>> GameState::_random_minefield(int width, int height, int mines, unsigned seed, const std::set<int>& reserved) {
-            const int total_tiles = width * height;
-            std::vector<int> tiles(total_tiles);
-            std::iota(tiles.begin(), tiles.end(), 0);
-            std::minstd_rand generator(seed);
-            std::vector<std::vector<bool>> minefield(width, std::vector<bool>(height, false));
+            static std::vector<std::vector<bool>> _random_minefield(int width, int height, int mines, unsigned seed, const std::set<int>& reserved) {
+                const int total_tiles = width * height;
+                std::vector<int> tiles(total_tiles);
+                std::iota(tiles.begin(), tiles.end(), 0);
+                std::minstd_rand generator(seed);
+                std::vector<std::vector<bool>> minefield(width, std::vector<bool>(height, false));
 
-            for (int i = 0, end = total_tiles - 1; i < mines; i++) {
-                std::uniform_int_distribution<int> distribution(i, end);
-                const int selected = distribution(generator);
-                if (reserved.find(tiles[selected]) != reserved.end()) {
-                    std::swap(tiles[selected], tiles[end]);
-                    i--;
-                    end--;
+                for (int i = 0, end = total_tiles - 1; i < mines; i++) {
+                    std::uniform_int_distribution<int> distribution(i, end);
+                    const int selected = distribution(generator);
+                    if (reserved.find(tiles[selected]) != reserved.end()) {
+                        std::swap(tiles[selected], tiles[end]);
+                        i--;
+                        end--;
+                    }
+                    else {
+                        const int _x = tiles[selected] / height;
+                        const int _y = tiles[selected] % height;
+                        minefield[_x][_y] = true;
+                        std::swap(tiles[selected], tiles[i]);
+                    }
+                    
                 }
-                else {
-                    const int _x = tiles[selected] / height;
-                    const int _y = tiles[selected] % height;
-                    minefield[_x][_y] = true;
-                    std::swap(tiles[selected], tiles[i]);
-                }
-                
+                return minefield;
             }
-            return minefield;
         }
-
-
-
 
         GameState::GameState(int width, int height, int mines, unsigned seed, int x, int y) :
         m_width(width),
