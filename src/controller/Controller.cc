@@ -28,11 +28,12 @@ namespace pmines {
         }
 
         void Controller::action_tile_left_clicked(int x, int y) {
+            const model::GameState::point_t point = {x, y};
             if (not m_gamestate) {
-                m_gamestate = std::make_unique<model::GameState>(10, 10, 16, 1u, x, y);
+                m_gamestate = std::make_unique<model::GameState>(10, 10, 16, 1u, point);
             }
-            if (m_gamestate->is_hidden(x, y)) {
-                if (m_gamestate->is_mine(x, y)) {
+            if (m_gamestate->get_state(point) == model::GameState::HIDDEN) {
+                if (m_gamestate->is_mine(point)) {
                     // TODO: Handle properly, can now be reset by flagging
                     m_view->set_tile_mine(x, y);
                 }
@@ -43,39 +44,41 @@ namespace pmines {
         }
 
         void Controller::action_tile_right_clicked(int x, int y) {
-            if (m_gamestate->is_flagged(x, y)) {
-                unflag_tile(x, y);
-            }
-            else if (m_gamestate->is_hidden(x, y)) {
-                flag_tile(x, y);
+            switch (m_gamestate->get_state({x, y})) {
+                case model::GameState::FLAGGED:
+                    unflag_tile(x, y);
+                    break;
+                case model::GameState::HIDDEN:
+                    flag_tile(x, y);
+                    break;
+                default:
+                    break;
             }
         }
 
         void Controller::reveal_tile(int x, int y) {
-            const int mines = m_gamestate->get_neighbouring_mines(x, y);
-            m_gamestate->reveal(x, y);
+            model::GameState::point_t point = {x, y};
+            m_gamestate->set_state(point, model::GameState::REVEALED);
+            const int mines = m_gamestate->get_neighbouring_mines(point);
             m_view->set_tile_empty(x, y, mines);
-            if (mines == 0) {
-                for (int _x = std::max(0, x-1); _x < std::min(m_gamestate->get_width(), x + 2); _x++) {
-                    for (int _y = std::max(0, y-1); _y < std::min(m_gamestate->get_height(), y + 2); _y++) {
-                        if (m_gamestate->is_hidden(_x, _y)) {
-                            reveal_tile(_x, _y);
-                        }
-                    }
+            if (mines > 0) {
+                return;
+            }
+            for (const auto neighbour : m_gamestate->get_neighbours(point)) {
+                if (m_gamestate->get_state(neighbour) == model::GameState::HIDDEN) {
+                    reveal_tile(neighbour.x , neighbour.y);
                 }
             }
         }
 
         void Controller::flag_tile(int x, int y) {
-            m_gamestate->flag(x, y);
+            m_gamestate->set_state({x, y}, model::GameState::FLAGGED);
             m_view->set_tile_flagged(x, y);
         }
 
         void Controller::unflag_tile(int x, int y) {
-            m_gamestate->unflag(x, y);
+            m_gamestate->set_state({x, y}, model::GameState::HIDDEN);
             m_view->set_tile_hidden(x, y);
         }
-
-        
     }
 }

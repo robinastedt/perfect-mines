@@ -2,102 +2,116 @@
 
 #include <numeric>
 #include <random>
-#include <set>
 
-namespace pmines {
-    namespace model {
-        
-        namespace {
-            static std::set<int> _get_reserved(int width, int height, int x, int y) {
-                std::set<int> reserved_tiles;
-                for (int _x = std::max(0, x-1); _x < std::min(width, x + 2); _x++) {
-                    for (int _y = std::max(0, y-1); _y < std::min(height, y + 2); _y++) {
-                        const int reserved = _x * height + _y;
-                        reserved_tiles.insert(reserved);
-                    }
-                }
-                return reserved_tiles;
-            }
+#include <algorithm>
 
-            static std::vector<std::vector<bool>> _random_minefield(int width, int height, int mines, unsigned seed, const std::set<int>& reserved) {
-                const int total_tiles = width * height;
-                std::vector<int> tiles(total_tiles);
-                std::iota(tiles.begin(), tiles.end(), 0);
-                std::minstd_rand generator(seed);
-                std::vector<std::vector<bool>> minefield(width, std::vector<bool>(height, false));
+namespace pmines::model {
 
-                for (int i = 0, end = total_tiles - 1; i < mines; i++) {
-                    std::uniform_int_distribution<int> distribution(i, end);
-                    const int selected = distribution(generator);
-                    if (reserved.find(tiles[selected]) != reserved.end()) {
-                        std::swap(tiles[selected], tiles[end]);
-                        i--;
-                        end--;
-                    }
-                    else {
-                        const int _x = tiles[selected] / height;
-                        const int _y = tiles[selected] % height;
-                        minefield[_x][_y] = true;
-                        std::swap(tiles[selected], tiles[i]);
-                    }
-                    
-                }
-                return minefield;
+    std::unordered_set<int>
+    GameState::_get_reserved(int width, int height, GameState::point_t point) {
+        std::unordered_set<int> reserved_tiles;
+        for (int _x = std::max(0, point.x-1); _x < std::min(width, point.x + 2); _x++) {
+            for (int _y = std::max(0, point.y-1); _y < std::min(height, point.y + 2); _y++) {
+                const int reserved = _x * height + _y;
+                reserved_tiles.insert(reserved);
             }
         }
+        return reserved_tiles;
+    }
 
-        GameState::GameState(int width, int height, int mines, unsigned seed, int x, int y) :
-        m_width(width),
-        m_height(height),
-        m_mines(_random_minefield(width, height, mines, seed, _get_reserved(width, height, x, y))),
-        m_tile_state(width, std::vector<TileState>(height, HIDDEN)) {
+    GameState::mine_grid_t
+    GameState::_random_minefield(int width, int height, int mines, unsigned seed,const std::unordered_set<int>& reserved) {
+        const int total_tiles = width * height;
+        std::vector<int> tiles(total_tiles);
+        std::iota(tiles.begin(), tiles.end(), 0);
+        std::minstd_rand generator(seed);
+        GameState::mine_grid_t minefield(width, height, GameState::EMPTY);
+
+        for (int i = 0, end = total_tiles - 1; i < mines; i++) {
+            std::uniform_int_distribution<int> distribution(i, end);
+            const int selected = distribution(generator);
+            if (reserved.find(tiles[selected]) != reserved.end()) {
+                std::swap(tiles[selected], tiles[end]);
+                i--;
+                end--;
+            }
+            else {
+                const point_t point = {tiles[selected] / height, tiles[selected] % height};
+                minefield[point] = MINE;
+                std::swap(tiles[selected], tiles[i]);
+            }
+            
         }
+        return minefield;
+    }
 
-        int GameState::get_width() {
-            return m_width;
-        }
+    GameState::mine_grid_t
+    GameState::_random_minefield(int width, int height, int mines, unsigned seed, GameState::point_t point) {
+        return _random_minefield(width, height, mines, seed, _get_reserved(width, height, point));
+    }
 
-        int GameState::get_height() {
-            return m_height;
-        }
+    GameState::GameState(int width, int height, int mines, unsigned seed, point_t initial_point) :
+    m_width(width),
+    m_height(height),
+    m_initial_point(initial_point),
+    m_num_mines(mines),
+    m_mines(_random_minefield(width, height, mines, seed, initial_point)),
+    m_tile_state(width, height, HIDDEN) {
+    }
 
-        bool GameState::is_mine(int x, int y) {
-            return m_mines[x][y];
-        }
+    int
+    GameState::get_width() {
+        return m_width;
+    }
 
-        int GameState::get_neighbouring_mines(int x, int y) {
-            int neighbours = 0;
-            for (int _x = std::max(0, x-1); _x < std::min(m_width, x + 2); _x++) {
-                for (int _y = std::max(0, y-1); _y < std::min(m_height, y + 2); _y++) {
-                    neighbours += m_mines[_x][_y] ? 1 : 0;
+    int
+    GameState::get_height() {
+        return m_height;
+    }
+
+    bool
+    GameState::is_mine(point_t point) {
+        return m_mines[point] == MINE;
+    }
+
+    std::vector<GameState::point_t>
+    GameState::get_neighbours(point_t point) {
+        std::vector<point_t> neighbours;
+        for (int _x = std::max(0, point.x-1); _x < std::min(m_width, point.x + 2); _x++) {
+            for (int _y = std::max(0, point.y-1); _y < std::min(m_height, point.y + 2); _y++) {
+                if (point.x != _x or point.y != _y) {
+                    neighbours.push_back({_x, _y});
                 }
             }
-            return neighbours;
         }
+        return neighbours;
+    }
 
-        bool GameState::is_revealed(int x, int y) {
-            return m_tile_state[x][y] == REVEALED;
+    std::vector<GameState::point_t>
+    GameState::get_neighbourhood(point_t point) {
+        std::vector<point_t> neighbours;
+        for (int _x = std::max(0, point.x-1); _x < std::min(m_width, point.x + 2); _x++) {
+            for (int _y = std::max(0, point.y-1); _y < std::min(m_height, point.y + 2); _y++) {
+                neighbours.push_back({_x, _y});
+            }
         }
-        
-        bool GameState::is_flagged(int x, int y) {
-            return m_tile_state[x][y] == FLAGGED;
-        }
+        return neighbours;
+    }
 
-        bool GameState::is_hidden(int x, int y) {
-            return m_tile_state[x][y] == HIDDEN;
-        }
+    int
+    GameState::get_neighbouring_mines(point_t point) {
+        const std::vector<point_t> neighbours = get_neighbours(point);
+        return std::count_if(neighbours.begin(), neighbours.end(), [this](point_t p){return m_mines[p] == MINE;});
+    }
 
-        void GameState::reveal(int x, int y) {
-            m_tile_state[x][y] = REVEALED;
-        }
+    GameState::TileState
+    GameState::get_state(point_t point) {
+        return m_tile_state[point];
+    }
 
-        void GameState::flag(int x, int y) {
-            m_tile_state[x][y] = FLAGGED;
-        }
-
-        void GameState::unflag(int x, int y) {
-            m_tile_state[x][y] = HIDDEN;
-        }
+    void
+    GameState::set_state(point_t point, TileState state) {
+        m_tile_state[point] = state;
     }
 }
 
