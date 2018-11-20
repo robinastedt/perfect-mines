@@ -1,7 +1,6 @@
 #include "Controller.hh"
 
 #include <view/ViewCallbacks.hh>
-#include <model/Solver.hh>
 
 namespace pmines {
     namespace controller {
