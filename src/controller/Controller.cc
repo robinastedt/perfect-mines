@@ -1,6 +1,10 @@
 #include "Controller.hh"
 
 #include <view/ViewCallbacks.hh>
+#include <model/ISolver.hh>
+#include <model/SimpleSolver.hh>
+
+#include <chrono>
 
 namespace pmines {
     namespace controller {
@@ -28,9 +32,10 @@ namespace pmines {
         }
 
         void Controller::action_tile_left_clicked(int x, int y) {
-            const model::GameState::point_t point = {x, y};
+            const model::GameState::point_t point {x, y};
             if (not m_gamestate) {
-                m_gamestate = std::make_unique<model::GameState>(10, 10, 16, 1u, point);
+                initialize_gamestate(x, y);
+                //m_gamestate = std::make_unique<model::GameState>(10, 10, 16, 1u, point);
             }
             if (m_gamestate->get_state(point) == model::GameState::HIDDEN) {
                 if (m_gamestate->is_mine(point)) {
@@ -42,6 +47,18 @@ namespace pmines {
                 }
             }
         }
+
+        void Controller::initialize_gamestate(int x, int y) {
+            std::unique_ptr<model::ISolver> solver;
+            do {
+                const model::GameState::point_t point {x, y};
+                const auto now_clock = std::chrono::high_resolution_clock::now();
+                const auto now = std::chrono::duration_cast<std::chrono::nanoseconds>(now_clock.time_since_epoch()).count();
+                m_gamestate = std::make_unique<model::GameState>(30, 16, 99, now, point);
+                solver = std::make_unique<model::SimpleSolver>(*m_gamestate);
+            } while (not solver->solve());
+        }
+
 
         void Controller::action_tile_right_clicked(int x, int y) {
             switch (m_gamestate->get_state({x, y})) {

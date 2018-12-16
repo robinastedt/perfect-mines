@@ -20,7 +20,7 @@ namespace pmines {
             window.set_border_width(0);
             m_container = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
             window.add(*m_container);
-            reset_gameboard(10, 10);
+            reset_gameboard(30, 16);
             window.show_all_children();
             return app->run(window);
         }

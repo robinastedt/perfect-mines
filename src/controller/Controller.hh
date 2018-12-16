@@ -19,12 +19,14 @@ namespace pmines {
             void action_tile_right_clicked(int x, int y);
 
         protected:
+            void initialize_gamestate(int x, int y);
             std::shared_ptr<view::ViewCallbacks> create_callbacks();
-            std::unique_ptr<model::GameState> m_gamestate;
-            std::unique_ptr<view::View> m_view;
             void reveal_tile(int x, int y);
             void flag_tile(int x, int y);
             void unflag_tile(int x, int y);
+            std::unique_ptr<model::GameState> m_gamestate;
+            std::unique_ptr<view::View> m_view;
+            
         };
     }
 }

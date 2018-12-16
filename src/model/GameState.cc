@@ -77,6 +77,7 @@ namespace pmines::model {
     std::vector<GameState::point_t>
     GameState::get_neighbours(point_t point) {
         std::vector<point_t> neighbours;
+        neighbours.reserve(8);
         for (int _x = std::max(0, point.x-1); _x < std::min(m_width, point.x + 2); _x++) {
             for (int _y = std::max(0, point.y-1); _y < std::min(m_height, point.y + 2); _y++) {
                 if (point.x != _x or point.y != _y) {
@@ -90,6 +91,7 @@ namespace pmines::model {
     std::vector<GameState::point_t>
     GameState::get_neighbourhood(point_t point) {
         std::vector<point_t> neighbours;
+        neighbours.reserve(9);
         for (int _x = std::max(0, point.x-1); _x < std::min(m_width, point.x + 2); _x++) {
             for (int _y = std::max(0, point.y-1); _y < std::min(m_height, point.y + 2); _y++) {
                 neighbours.push_back({_x, _y});
