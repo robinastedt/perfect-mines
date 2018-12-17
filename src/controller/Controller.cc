@@ -46,6 +46,28 @@ namespace pmines {
                     reveal_tile(x, y);
                 }
             }
+            else if (m_gamestate->get_state(point) == model::GameState::REVEALED) {
+                int flagged = 0;
+                auto neighbours = m_gamestate->get_neighbours(point);
+                for (model::GameState::point_t neighbour : neighbours) {
+                    if (m_gamestate->get_state(neighbour) == model::GameState::FLAGGED) {
+                        flagged++;
+                    }
+                }
+                if (flagged == m_gamestate->get_neighbouring_mines(point)) {
+                    for (model::GameState::point_t neighbour : neighbours) {
+                        if (m_gamestate->get_state(neighbour) == model::GameState::HIDDEN) {
+                            if (m_gamestate->is_mine(neighbour)) {
+                                // TODO: Handle properly, can now be reset by flagging
+                                m_view->set_tile_mine(neighbour.x, neighbour.y);
+                            }
+                            else {
+                                reveal_tile(neighbour.x, neighbour.y);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         void Controller::initialize_gamestate(int x, int y) {
