@@ -16,7 +16,7 @@ namespace pmines {
             Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv);
             Gtk::Window window;
             m_window = &window;
-            window.set_title("Intelligent Mines");
+            window.set_title("Perfect Mines");
             window.set_border_width(0);
             m_container = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
             window.add(*m_container);
