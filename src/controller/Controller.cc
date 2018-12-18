@@ -36,7 +36,6 @@ namespace pmines {
             const model::GameState::point_t point {x, y};
             if (not m_gamestate) {
                 initialize_gamestate(x, y);
-                //m_gamestate = std::make_unique<model::GameState>(10, 10, 16, 1u, point);
             }
             if (m_gamestate->get_state(point) == model::GameState::HIDDEN) {
                 reveal_tile(x, y);
