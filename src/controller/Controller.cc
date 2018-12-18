@@ -4,6 +4,7 @@
 #include <model/ISolver.hh>
 #include <model/SimpleSolver.hh>
 
+#include <iostream>
 #include <chrono>
 
 namespace pmines {
@@ -71,13 +72,16 @@ namespace pmines {
         }
 
         void Controller::initialize_gamestate(int x, int y) {
+            int generation = 1;
             std::unique_ptr<model::ISolver> solver;
             do {
+                std::cout << "Generating new game, try: " << generation << std::endl;
                 const model::GameState::point_t point {x, y};
                 const auto now_clock = std::chrono::high_resolution_clock::now();
                 const auto now = std::chrono::duration_cast<std::chrono::nanoseconds>(now_clock.time_since_epoch()).count();
                 m_gamestate = std::make_unique<model::GameState>(30, 16, 99, now, point);
                 solver = std::make_unique<model::SimpleSolver>(*m_gamestate);
+                generation++;
             } while (not solver->solve());
         }
 

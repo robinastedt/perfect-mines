@@ -1,5 +1,7 @@
 #include "SimpleSolver.hh"
 
+#include <iostream>
+
 namespace pmines {
     namespace model {
         SimpleSolver::SimpleSolver(const GameState& gamestate) :
@@ -17,11 +19,15 @@ namespace pmines {
 
         bool SimpleSolver::solve() {
             mark_revealed(m_gamestate.m_initial_point);
+            int iteration = 1;
             while (not is_solved()) {
                 if (not solve_iterate()) {
+                    std::cout << "Solve failed at iteration: " << iteration << std::endl;
                     return false;
                 }
+                iteration++;
             }
+            std::cout << "Solve succeeded at iteration: " << iteration << std::endl;
             return true;
         }
 
