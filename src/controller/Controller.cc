@@ -39,13 +39,7 @@ namespace pmines {
                 //m_gamestate = std::make_unique<model::GameState>(10, 10, 16, 1u, point);
             }
             if (m_gamestate->get_state(point) == model::GameState::HIDDEN) {
-                if (m_gamestate->is_mine(point)) {
-                    // TODO: Handle properly, can now be reset by flagging
-                    m_view->set_tile_mine(x, y);
-                }
-                else {
-                    reveal_tile(x, y);
-                }
+                reveal_tile(x, y);
             }
             else if (m_gamestate->get_state(point) == model::GameState::REVEALED) {
                 int flagged = 0;
@@ -58,7 +52,7 @@ namespace pmines {
                 if (flagged == m_gamestate->get_neighbouring_mines(point)) {
                     for (model::GameState::point_t neighbour : neighbours) {
                         if (m_gamestate->get_state(neighbour) == model::GameState::HIDDEN) {
-                            action_tile_left_clicked(neighbour.x, neighbour.y);
+                            reveal_tile(neighbour.x, neighbour.y);
                         }
                     }
                 }
@@ -93,7 +87,7 @@ namespace pmines {
             }
         }
 
-        void Controller::reveal_tile(int x, int y) {
+        void Controller::reveal_safe_tile(int x, int y) {
             model::GameState::point_t point = {x, y};
             m_gamestate->set_state(point, model::GameState::REVEALED);
             const int mines = m_gamestate->get_neighbouring_mines(point);
@@ -103,8 +97,18 @@ namespace pmines {
             }
             for (const auto neighbour : m_gamestate->get_neighbours(point)) {
                 if (m_gamestate->get_state(neighbour) == model::GameState::HIDDEN) {
-                    reveal_tile(neighbour.x , neighbour.y);
+                    reveal_safe_tile(neighbour.x , neighbour.y);
                 }
+            }
+        }
+
+        void Controller::reveal_tile(int x, int y) {
+            if (m_gamestate->is_mine({x, y})) {
+                // TODO: Handle properly, can now be reset by flagging
+                m_view->set_tile_mine(x, y);
+            }
+            else {
+                reveal_safe_tile(x, y);
             }
         }
 

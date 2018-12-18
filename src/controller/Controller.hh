@@ -21,6 +21,7 @@ namespace pmines {
         protected:
             void initialize_gamestate(int x, int y);
             std::shared_ptr<view::ViewCallbacks> create_callbacks();
+            void reveal_safe_tile(int x, int y);
             void reveal_tile(int x, int y);
             void flag_tile(int x, int y);
             void unflag_tile(int x, int y);
