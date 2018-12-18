@@ -58,13 +58,7 @@ namespace pmines {
                 if (flagged == m_gamestate->get_neighbouring_mines(point)) {
                     for (model::GameState::point_t neighbour : neighbours) {
                         if (m_gamestate->get_state(neighbour) == model::GameState::HIDDEN) {
-                            if (m_gamestate->is_mine(neighbour)) {
-                                // TODO: Handle properly, can now be reset by flagging
-                                m_view->set_tile_mine(neighbour.x, neighbour.y);
-                            }
-                            else {
-                                reveal_tile(neighbour.x, neighbour.y);
-                            }
+                            action_tile_left_clicked(neighbour.x, neighbour.y);
                         }
                     }
                 }
