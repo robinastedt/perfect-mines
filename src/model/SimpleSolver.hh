@@ -1,7 +1,6 @@
 #pragma once
 
 #include <model/ISolver.hh>
-#include <model/GameState.hh>
 
 namespace pmines {
     namespace model {

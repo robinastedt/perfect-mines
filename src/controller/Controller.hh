@@ -4,7 +4,6 @@
 #include <model/GameState.hh>
 
 #include <memory>
-#include <cstddef>
 
 namespace pmines {
     namespace controller {

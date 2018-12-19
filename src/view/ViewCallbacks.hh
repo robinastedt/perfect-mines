@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <cstddef>
 
 namespace pmines {
     namespace view {
