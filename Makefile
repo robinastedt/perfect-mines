@@ -3,6 +3,7 @@ EXE = perfect-mines
 
 SRC_DIR = src
 OBJ_DIR = obj
+OBJ_SUB_DIRS = obj/model obj/view obj/controller
 
 CXX = g++
 
@@ -21,8 +22,14 @@ all debug: $(EXE)
 $(EXE): $(OBJ)
 	$(CXX) $^ $(LDLIBS) -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc $(OBJ_SUB_DIRS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_SUB_DIRS): $(OBJ_DIR)
+	mkdir $(OBJ_SUB_DIRS)
+
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
 
 clean:
 	$(RM) $(OBJ)
