@@ -38,4 +38,4 @@ clean:
 run: all
 	./$(EXE)
 
-.PHONY: all clean
+.PHONY: all debug clean run
